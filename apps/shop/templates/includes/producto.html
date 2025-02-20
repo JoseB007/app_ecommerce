@@ -1,0 +1,17 @@
+{% load humanize %}
+<div class="row">
+    {% for producto in productos %}
+    <!-- Producto 1 -->
+    <div class="col-md-3 mb-4">
+        <a href="{% url 'shop:detalle-producto' producto.slug %}" class="text-decoration-none text-dark">
+            <div class="card h-100">
+                <img src="{{ producto.get_imagen }}" class="card-img-top img-fluid" alt="{{ producto.nombre }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ producto.nombre }}</h5>
+                    <p class="card-text">${{ producto.precio|intcomma }}</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>

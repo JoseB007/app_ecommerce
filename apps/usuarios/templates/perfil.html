@@ -1,0 +1,115 @@
+{% extends 'layouts/b.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Columna izquierda: Imagen de perfil e información básica -->
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <!-- Imagen de perfil -->
+                    <img src="{{ perfil.get_avatar }}" alt="Imagen de perfil" class="img-fluid rounded-circle mb-3">
+                    <!-- Botón para cambiar la imagen -->
+                    <button class="btn btn-outline-primary btn-sm mb-3">Cambiar imagen</button>
+
+                    <!-- Información básica -->
+                    <h4 class="card-title">{{ perfil.get_nombre_completo }}</h4>
+                    {% if user.email %}
+                    <p class="card-text text-muted">{{ perfil.email }}</p>
+                    {% endif %}
+
+                    {% if request.user == perfil %}
+                    <!-- Enlaces de edición -->
+                    <div class="text-start">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="fas fa-edit me-2"></i>Editar perfil
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none">
+                                    <i class="fas fa-lock me-2"></i>Cambiar contraseña
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{% url 'account_logout' %}" class="text-decoration-none">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna derecha: Compras y favoritos -->
+        <div class="col-md-8">
+            {% if request.user == perfil %}
+            <!-- Compras realizadas -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Compras realizadas</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>Producto 1</span>
+                                <span class="text-muted">$50.00</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>Producto 2</span>
+                                <span class="text-muted">$45.00</span>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between">
+                                <span>Producto 3</span>
+                                <span class="text-muted">$60.00</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Favoritos agregados -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Favoritos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Producto favorito 1 -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <img src="https://images.pexels.com/photos/19526811/pexels-photo-19526811/free-photo-of-pastel-de-melaza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Producto 1">
+                                <div class="card-body">
+                                    <h6 class="card-title">Producto 1</h6>
+                                    <p class="card-text text-muted">$50.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Producto favorito 2 -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <img src="https://images.pexels.com/photos/19526811/pexels-photo-19526811/free-photo-of-pastel-de-melaza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Producto 2">
+                                <div class="card-body">
+                                    <h6 class="card-title">Producto 2</h6>
+                                    <p class="card-text text-muted">$45.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'layouts/a.html' %}
+
+{% block content %}
+<!-- Sección de Productos -->
+<h2 class="text-center mb-4">Productos Más Vendidos</h2>
+<!-- Fila de Productos -->
+{% include 'includes/producto.html' %}
+
+<!-- Sección de Categorías -->
+<h2 class="text-center mb-4">Categorías</h2>
+<!-- Fila de Categorías -->
+<div class="row justify-content-center">
+    {% for cat in categorias %}
+    <div class="col-custom mb-4">
+        <a href="{% url 'shop:tiendaProductos-tag' cat.slug %}" class="text-decoration-none text-white">
+            <div class="category-card position-relative overflow-hidden" style="height: 250px;">
+                <img src="https://images.pexels.com/photos/19526811/pexels-photo-19526811/free-photo-of-pastel-de-melaza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="img-fluid w-100 h-100" alt="Categoría 1" style="object-fit: cover;">
+                <div class="position-absolute top-50 start-50 translate-middle text-center">
+                    <h3 class="fw-bold">{{ cat.nombre }}</h3>
+                    <p class="mb-0">{{ cat.productos.count }} producto{{ cat.productos.count|pluralize:"s" }}</p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+

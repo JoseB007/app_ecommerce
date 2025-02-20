@@ -1,0 +1,93 @@
+<div class="pt-3 h-100">
+    <!-- Enlace principal: Inicio -->
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'shop:index' %}">
+                <i class="fas fa-home me-2"></i>Inicio
+            </a>
+        </li>
+    </ul>
+
+    <!-- Enlace principal: Productos -->
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#collapseProducts" role="button">
+                <i class="fas fa-box me-2"></i>Productos
+            </a>
+            <!-- Subenlaces de Productos -->
+            <div class="collapse" id="collapseProducts">
+                <ul class="nav flex-column ps-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productos:agregar-producto' %}">Crear producto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productos:lista-productos' %}">Listar productos</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Enlace principal: Usuarios -->
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#collapseUsers" role="button">
+                <i class="fas fa-users me-2"></i>Usuarios
+            </a>
+            <!-- Subenlaces de Usuarios -->
+            <div class="collapse" id="collapseUsers">
+                <ul class="nav flex-column ps-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Listar usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Crear usuario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Editar usuario</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Enlace principal: Compras -->
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#collapseOrders" role="button">
+                <i class="fas fa-shopping-cart me-2"></i>Compras
+            </a>
+            <!-- Subenlaces de Compras -->
+            <div class="collapse" id="collapseOrders">
+                <ul class="nav flex-column ps-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Historial de compras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Gestionar pedidos</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Enlace principal: Configuración -->
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#collapseSettings" role="button">
+                <i class="fas fa-cog me-2"></i>Configuración
+            </a>
+            <!-- Subenlaces de Configuración -->
+            <div class="collapse" id="collapseSettings">
+                <ul class="nav flex-column ps-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Ajustes generales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Permisos</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    height: 100%;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+.main-content {
+    margin: 20px auto; /* Margen superior e inferior, y centrado horizontal */
+    padding: 20px; /* Padding interno */
+    max-width: 1200px; /* Ancho máximo del contenido */
+}
+
+
+/* Estilos personalizados para el header */
+.custom-header {
+    height: 80px; /* Altura del header */
+    padding: 10px 20px; /* Padding interno */
+    background-color: #f8f9fa; /* Color de fondo */
+    border-bottom: 1px solid #e0e0e0; /* Borde inferior */
+}
+.custom-header .search-input {
+    width: 100%; /* Ancho completo del campo de búsqueda */
+    max-width: 300px; /* Ancho máximo */
+}
+.custom-header .company-name {
+    font-size: 24px; /* Tamaño del nombre de la empresa */
+    font-weight: bold; /* Negrita */
+}
+.custom-header .nav-link {
+    font-size: 16px; /* Tamaño de los enlaces */
+    margin-left: 15px; /* Espacio entre enlaces */
+}
+
+
+/* Estilos personalizados para el Hero */
+.hero-section {
+    height: 600px; /* Altura del Hero */
+    background-image: url('https://images.pexels.com/photos/65451/pexels-photo-65451.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); /* Imagen de fondo */
+    background-size: cover; /* Cubre todo el contenedor */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita la repetición */
+    margin: 0; /* Sin margen */
+    padding: 0; /* Sin padding */
+}
+
+
+/* Estilos personalizados para aumentar la altura de las tarjetas */
+.card-img-top {
+    height: 300px; /* Altura fija para las imágenes */
+    object-fit: cover; /* Ajusta la imagen para cubrir el espacio */
+}
+
+
+/* Estilos personalizados para las categorías */
+.category-card {
+    border-radius: 10px; /* Bordes redondeados */
+    transition: transform 0.3s ease; /* Efecto de hover */
+}
+.category-card:hover {
+    transform: scale(1.05); /* Escala ligeramente al pasar el mouse */
+}
+.category-card img {
+    filter: brightness(0.7); /* Oscurece la imagen para que el texto resalte */
+}
+
+
+/* Clase personalizada para 5 columnas */
+.col-custom {
+    flex: 0 0 19%; /* Cada columna ocupa el 19% del ancho */
+    max-width: 19%; /* Ancho máximo del 19% */
+    padding: 0 5px; /* Espaciado entre columnas */
+}
+
+
+/* Estilos personalizados para el detalle del producto */
+.product-detail-container {
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 40px auto; /* Margen superior e inferior de 40px, y centrado horizontal */
+    padding: 20px; /* Padding interno */
+}
+.product-image img {
+    width: 100%; /* La imagen ocupa todo el ancho del contenedor */
+    max-height: 600px; /* Altura automática para mantener la proporción */
+    border-radius: 10px; /* Bordes redondeados */
+}
+.product-name {
+    font-size: 2.5rem; /* Tamaño grande para el nombre */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+.product-price {
+    font-size: 2rem; /* Tamaño grande para el precio */
+    color: #28a745; /* Color verde para el precio */
+    margin-bottom: 20px; /* Espacio inferior */
+}
+.quantity-selector {
+    margin-bottom: 20px; /* Espacio inferior */
+}
+.action-buttons .btn {
+    font-size: 1rem; /* Tamaño de fuente para los botones */
+    padding: 10px 20px; /* Padding interno */
+}
+.product-info {
+    margin-top: 30px; /* Espacio superior */
+}
+
+
+/* Estilos personalizados para la lista de productos */
+.collapse_button a {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.cat_actual {
+    color: rgb(24, 11, 11) !important;
+    font-weight: bold;
+}
+
+
+/* Estilos personalizados para la sidebar de administración */
+.sidebar {
+overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es largo */
+}
+
+
+/* Estilos personalizados para los formularios */
+form button {
+    padding: 0.75rem 1.5rem; /* Padding del botón */
+    font-size: 1rem; /* Tamaño de fuente */
+    border-radius: 0.375rem; /* Bordes redondeados */
+    transition: background-color 0.15s ease-in-out; /* Transición suave */
+    background-color: #007bff; /* Color de fondo */
+    border: none;
+    color: white;
+}
+form button:hover {
+    background-color: #0a58ca; /* Color de fondo al pasar el mouse */
+}
+form label {
+    margin-bottom: 0.5rem; /* Espacio debajo de las etiquetas */
+    display: block; /* Asegura que las etiquetas estén en una línea separada */
+}
+
+
+
+.alert-message {
+    width: 400px;
+    margin: auto;
+    position: absolute;
+    top: 90px;
+    right: 10px;
+}

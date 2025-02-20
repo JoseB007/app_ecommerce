@@ -1,0 +1,38 @@
+{% extends 'includes/lista.html' %}
+{% load humanize %}
+
+{% block tabla-datos %}
+<thead>
+    <tr>
+        <th>No.</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <th>Categorías</th>
+        <th>Acciones</th>
+    </tr>
+</thead>
+<tbody>
+    {% for producto in productos %}
+        {% with forloop.counter as index %}
+            <tr>
+                <td>{{ index }}</td>
+                <td><a href="{{ producto.get_absolute_url }}" class="text-decoration-none">{{ producto.nombre }}</a></td>
+                <td>{{ producto.descripcion|truncatewords:"6" }}</td>
+                <td>${{ producto.precio|intcomma }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>
+                    {% for c in producto.categorias.all|slice:":3" %}
+                        <small><p style="margin: 0;">{{ c|truncatewords:"3" }}</p></small>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'productos:actualizar-producto' producto.slug %}" class="btn btn-sm btn-primary me-2"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        {% endwith %}
+    {% endfor %}
+</tbody>
+{% endblock %}

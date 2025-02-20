@@ -1,0 +1,36 @@
+{% extends 'layouts/c.html' %}
+{% load static %}
+
+{% block scripts_personalizados %}
+    <script src="{% static 'js/funciones.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data" id="form_envio_ajax">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{{ action }}">
+    <!-- Ejemplo de campo de formulario -->
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <!-- Botón de enviar -->
+    <button type="submit">Enviar</button>
+</form>
+
+<script>
+    $("#form_envio_ajax").on("submit", function (e) {
+        e.preventDefault();
+
+        // Crear un objeto FormData a partir del formulario
+        const formData = new FormData(this);
+
+        // URL de redirección (si es necesaria)
+        const url_redireccion = "{{ url_redireccion }}";
+
+        // Llamar a la función para enviar los datos
+        solicitud_post_ajax(window.location.pathname, formData, url_redireccion);
+    });
+</script>
+
+{% endblock %}
