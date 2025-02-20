@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.ordenes',
     'apps.usuarios',
     'apps.administracion',
+    'apps.clientes',
     # allauth
     'allauth',
     'allauth.account',
