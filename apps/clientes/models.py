@@ -44,6 +44,7 @@ class ItemCarrito(models.Model):
     f_creacion = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        verbose_name = 'Item de Carrito'
         constraints = [
             models.UniqueConstraint(fields=['carrito', 'producto'], name='unique_item')
         ]

@@ -26,12 +26,13 @@
     </table>
 </div>
 
-
+{% if paginator.num_pages > 1 %}
 <div class="d-flex justify-content-between align-items-center">
     <div>
         <small>Mostrando {{ page_obj.object_list.count }} de {{ paginator.count }} resultados</small>
     </div>
     {% include 'includes/paginador.html' %}
 </div>
+{% endif %}
 
 {% endblock %}
