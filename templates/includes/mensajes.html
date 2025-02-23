@@ -1,7 +1,7 @@
+<!-- Mensajes -->
 {% if messages %}
     {% for msj in messages %}
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
-
         <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             {% if msj.tags == 'success' %}
             <div class="toast-header text-bg-success">
@@ -32,10 +32,9 @@
             </div>
             {% endif %}
             <div class="toast-body">
-                {{ msj}}
+                {{ msj }}
             </div>
         </div>
-
     </div>
     {% endfor %}
 {% endif %}

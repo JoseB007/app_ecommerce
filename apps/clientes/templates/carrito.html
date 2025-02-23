@@ -5,15 +5,13 @@
 {% block content %}
 <div class="row">
     <!-- Columna de información del producto -->
-    <div class="col-md-8">
+    <div class="col-md-8" id="info-prod">
         {% if carrito.items.count > 0 %}
-            <div id="info-prod">
-                {% for item in carrito.items.all %}
-                    <div class="card mb-3" id="item-{{ item.id}}">
-                        {% include 'includes/item_carrito.html' %}
-                    </div>
-                {% endfor %}
-            </div>
+            {% for item in carrito.items.all %}
+                <div class="card mb-3" id="item-{{ item.id}}">
+                    {% include 'includes/item_carrito.html' %}
+                </div>
+            {% endfor %}
         {% else %}
         <div class="card mb-3">
             <div class="row no-gutters">

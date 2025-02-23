@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.db.models import Sum, Count
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import DetailView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages import get_messages
 
 
 from .models import Cliente, Carrito, ItemCarrito
@@ -12,7 +14,7 @@ from .models import Cliente, Carrito, ItemCarrito
 from apps.productos.models import Producto
 
 # Create your views here.
-class AgregarItemCarritoView(View):
+class AgregarItemCarritoView(LoginRequiredMixin, View):
     msj_exito = 'Producto agregado al carrito.'
 
     def post(self, request, *args, **kwargs):
@@ -70,7 +72,7 @@ class AgregarItemCarritoView(View):
         return item
 
 
-class ActualizarItemCarrito(View):
+class ActualizarItemCarrito(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # Verificar si es una solicitud HTMX
         if self.request.headers.get('HX-Request') != 'true':
@@ -105,6 +107,9 @@ class ActualizarItemCarrito(View):
         # Recalcular el total del carrito
         carrito.calcular_total()
 
+        messages.success(request, 'Éxito')
+        storage = get_messages(request)
+
         # Calcular el total de productos en el carrito actual
         total_prod = carrito.items.aggregate(total_prod=Sum('cantidad'))['total_prod'] or 0
 
@@ -113,6 +118,7 @@ class ActualizarItemCarrito(View):
             'item': item,
             'carrito': carrito,
             'total_prod': total_prod,
+            'messages': storage,
         }
 
         # Renderizar la plantilla
@@ -139,7 +145,7 @@ class ActualizarItemCarrito(View):
         return item
 
 
-class EliminarItemCarrito(View):
+class EliminarItemCarrito(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # Verificar si es una solicitud HTMX
         if self.request.headers.get('HX-Request') != 'true':
@@ -176,7 +182,7 @@ class EliminarItemCarrito(View):
         return render(request, 'snippets/snippet_actualizar-carrito.html', context)
 
 
-class CarritoView(DetailView):
+class CarritoView(LoginRequiredMixin, DetailView):
     model = Carrito
     template_name = "carrito.html"
     context_object_name = "carrito"

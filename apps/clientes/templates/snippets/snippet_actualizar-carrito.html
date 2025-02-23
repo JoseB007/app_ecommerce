@@ -1,10 +1,24 @@
+{% load static %}
 {% load humanize %}
-<div id="info-prod">
-    {% for item in carrito.items.all %}
-        <div class="card mb-3" id="item-{{ item.id}}">
-            {% include 'includes/item_carrito.html' %}
+<div class="col-md-8" id="info-prod">
+    {% if carrito.items.count > 0 %}
+        {% for item in carrito.items.all %}
+            <div class="card mb-3" id="item-{{ item.id}}">
+                {% include 'includes/item_carrito.html' %}
+            </div>
+        {% endfor %}
+    {% else %}
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{% static 'img/default.png' %}" class="product-image" alt="Imagen del producto">
+            </div>
+            <div class="col-md-8 d-flex align-items-center justify-content-center">
+                <h5 class="card-title">No tienes productos en el carrito</h5>
+            </div>
         </div>
-    {% endfor %}
+    </div>
+    {% endif %}
 </div>
 
 <div hx-swap-oob="true" class="card-body" id="resumen-compra">
