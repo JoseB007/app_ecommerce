@@ -20,7 +20,15 @@
                 <a href="{% url 'administracion:home' %}" class="nav-link">Administración</a>
                 {% endif %}
                 <a href="{% url 'perfil:perfil' %}" class="nav-link">Perfil</a>
-                <a href="#" class="nav-link">Carrito</a>
+                <div id="notify-carrito" class="position-relative">
+                    {% if request.user.cliente.carrito.productos.count > 0 %}
+                    <span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
+                        {{ request.user.cliente.carrito.productos.count }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    {% endif %}
+                    <a href="{% url 'clientes:mi-carrito' %}" class="nav-link">Carrito</a>
+                </div>
                 {% endif %}
             </div>
         </div>

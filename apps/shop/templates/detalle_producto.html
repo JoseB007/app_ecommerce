@@ -1,5 +1,10 @@
 {% extends 'layouts/b.html' %}
+{% load static %}
 {% load humanize %}
+
+{% block scripts_plantillas %}
+<script src="{% static 'js_shop/scripts.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="product-detail-container">
@@ -19,12 +24,6 @@
             <!-- Precio -->
             <p class="product-price fw-bold">${{ producto.precio|intcomma }}</p>
 
-            <!-- Selector de cantidad -->
-            <div class="quantity-selector mb-4">
-                <label for="quantity" class="form-label">Cantidad:</label>
-                <input type="number" id="quantity" class="form-control" value="1" min="1" style="max-width: 100px;">
-            </div>
-
             <!-- Categorias del producto -->
             <div class="category-section mb-4 p-3">
                 {% for cat in producto.categorias.all %}
@@ -32,15 +31,24 @@
                 {% endfor %}
             </div>
 
-            <!-- Botones de acción -->
-            <div class="action-buttons mb-4">
-                <button class="btn btn-primary me-2">
-                    <i class="fas fa-cart-plus"></i> Añadir al carrito
-                </button>
-                <button class="btn btn-outline-secondary">
-                    <i class="fas fa-heart"></i> Añadir a favoritos
-                </button>
-            </div>
+            <!-- Selector de cantidad -->
+            <form method="post" id="form-carrito" action="{% url 'clientes:agregar-al-carrito' producto.id %}">
+                {% csrf_token %}
+                <div class="quantity-selector mb-4">
+                    <label for="quantity" class="form-label">Cantidad:</label>
+                    <input type="number" name="cantidad" class="form-control" value="1" style="max-width: 100px;">
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="action-buttons mb-4">
+                    <button class="btn btn-primary me-2">
+                        <i class="fas fa-cart-plus"></i> Añadir al carrito
+                    </button>
+                    <button class="btn btn-outline-secondary">
+                        <i class="fas fa-heart"></i> Añadir a favoritos
+                    </button>
+                </div>
+            </form>
 
             <!-- Información del producto -->
             <div class="product-info">

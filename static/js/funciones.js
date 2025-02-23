@@ -22,12 +22,12 @@ function solicitud_post_ajax(url, parametros, callback) {
     });
 }
 
-function solicitud_get_ajax(url, action, callback = null) {
+function solicitud_get_ajax(url, parametros, callback=null) {
     $.ajax({
         url: url,
         type: "GET",
         headers: { "Ajax-Request": "true" },
-        data: { action: action },
+        data: parametros,
         success: function (response) {
             if (!response.error) {
                 if (callback && typeof callback === "function") {

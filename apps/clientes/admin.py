@@ -9,7 +9,7 @@ class CarritoAdmin(admin.ModelAdmin):
 
 @admin.register(Carrito)
 class CarritoAdmin(admin.ModelAdmin):
-    list_display = ('cliente', 'f_creacion', 'f_actualizacion')
+    list_display = ('cliente', 'total', 'f_creacion', 'f_actualizacion')
 
 
 @admin.register(ItemCarrito)

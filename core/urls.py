@@ -27,6 +27,7 @@ urlpatterns = [
     path('productos/', include('apps.productos.urls')),
     path('perfil/', include('apps.usuarios.urls')),
     path('administracion/', include('apps.administracion.urls')),
+    path('clientes/', include('apps.clientes.urls')),
     path('', RedirectView.as_view(url='/shop/', permanent=True))
 ]
 

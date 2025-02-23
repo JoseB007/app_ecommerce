@@ -30,7 +30,10 @@ body {
 }
 .custom-header .nav-link {
     font-size: 16px; /* Tamaño de los enlaces */
-    margin-left: 15px; /* Espacio entre enlaces */
+    padding-left: 15px;
+    height: 35px;
+    display: flex;
+    align-items: center;;
 }
 
 
@@ -143,11 +146,17 @@ form label {
 }
 
 
-
-.alert-message {
+/* .alert-message {
     width: 400px;
     margin: auto;
     position: absolute;
     top: 90px;
     right: 10px;
+} */
+
+
+.product-image {
+    max-height: 400px;
+    width: 100%;
+    object-fit: contain;
 }
