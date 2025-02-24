@@ -12,7 +12,7 @@ $(function () {
                 if (response.carrito_items > 0) {
                     if (carritoItemsBadge.length === 0) {
                         $("#notify-carrito").append(
-                            '<span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' +
+                            '<span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">' +
                                 response.carrito_items +
                                 '<span class="visually-hidden">unread messages</span></span>'
                         );
@@ -20,6 +20,7 @@ $(function () {
                         // Si el badge ya existe, actualiza su texto
                         carritoItemsBadge.text(response.carrito_items);
                     }
+                    toastr_funcion(response.message)
                 } else {
                     // Si el carrito está vacío, elimina el badge
                     carritoItemsBadge.remove();

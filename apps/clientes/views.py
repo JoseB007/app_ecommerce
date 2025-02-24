@@ -53,23 +53,18 @@ class AgregarItemCarritoView(LoginRequiredMixin, View):
 
             # Mensaje de éxito
             messages.success(request, self.msj_exito)
-
+            storage = get_messages(request)
+            lista_mensajes = [(message.tags, message.message) for message in storage]
+            
             # Datos para la respuesta JSON
             data['item'] = item.producto.json_producto()
             data['carrito_items'] = carrito.productos.count()
+            data['message'] = lista_mensajes
         except Exception as e:
             data['error'] = str(e)
             return JsonResponse(data, status=500)
 
         return JsonResponse(data)
-
-    
-        item = ItemCarrito.objects.get(carrito=carrito, producto=producto)
-        if item.cantidad > 1:
-            item.cantidad -= 1
-            item.save()
-
-        return item
 
 
 class ActualizarItemCarrito(LoginRequiredMixin, View):
@@ -107,9 +102,6 @@ class ActualizarItemCarrito(LoginRequiredMixin, View):
         # Recalcular el total del carrito
         carrito.calcular_total()
 
-        messages.success(request, 'Éxito')
-        storage = get_messages(request)
-
         # Calcular el total de productos en el carrito actual
         total_prod = carrito.items.aggregate(total_prod=Sum('cantidad'))['total_prod'] or 0
 
@@ -118,7 +110,6 @@ class ActualizarItemCarrito(LoginRequiredMixin, View):
             'item': item,
             'carrito': carrito,
             'total_prod': total_prod,
-            'messages': storage,
         }
 
         # Renderizar la plantilla
