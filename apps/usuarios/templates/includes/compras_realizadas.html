@@ -1,0 +1,29 @@
+{% if request.user == perfil %}
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">Compras realizadas</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <span>Producto 1</span>
+                    <span class="text-muted">$50.00</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <span>Producto 2</span>
+                    <span class="text-muted">$45.00</span>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <span>Producto 3</span>
+                    <span class="text-muted">$60.00</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,43 @@
+{% load static %}
+{% load humanize %}
+
+<div class="card" id="ult-favoritos">
+    <div class="card-header">
+        <h5 class="mb-0">Últimos Favoritos</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {% if prod_favoritos.count > 0 %}
+                {% for producto in prod_favoritos %}
+                <div class="col-md-4" style="position: relative;">
+                    <div class="card">
+                        <img src="{{ producto.get_imagen }}" class="object-fit-cover" alt="{{ producto.slug }}">
+                        <a class="text-decoration-none text-dark" href="{{ producto.get_absolute_url }}">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ producto.nombre }}</h6>
+                                <p class="card-text text-muted">${{ producto.precio|intcomma }}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div style="position: absolute; top: 10px; right: 20px;">
+                        <a class="btn-primary"
+                        hx-get="{% url 'perfil:lista-favoritos' producto.id %}"
+                        hx-target="#ult-favoritos"
+                        hx-swap="outerHTML"
+                        hx-trigger="click">
+                            <i class="fas fa-heart" style="font-size: 20px; cursor: pointer;"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-md-4">
+                    <img src="{% static 'img/default.png' %}" class="product-image-cart" alt="Imagen del producto">
+                </div>
+                <div class="col-md-8 d-flex align-items-center justify-content-center">
+                    <h5 class="card-title">No has agregado productos a tus favoritos</h5>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

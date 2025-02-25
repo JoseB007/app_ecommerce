@@ -3,9 +3,9 @@
 {% load humanize %}
 
 {% block content %}
-<div class="row">
+<div class="row" id="info-prod">
     <!-- Columna de información del producto -->
-    <div class="col-md-8" id="info-prod">
+    <div class="col-md-8">
         {% if carrito.items.count > 0 %}
             {% for item in carrito.items.all %}
                 <div class="card mb-3" id="item-{{ item.id}}">
@@ -14,14 +14,7 @@
             {% endfor %}
         {% else %}
         <div class="card mb-3">
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                    <img src="{% static 'img/default.png' %}" class="product-image" alt="Imagen del producto">
-                </div>
-                <div class="col-md-8 d-flex align-items-center justify-content-center">
-                    <h5 class="card-title">No tienes productos en el carrito</h5>
-                </div>
-            </div>
+            {% include 'includes/carrito_vacio.html' %}
         </div>
         {% endif %}
     </div>

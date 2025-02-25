@@ -30,7 +30,7 @@ class AgregarItemCarritoView(LoginRequiredMixin, View):
                 raise ValueError("La cantidad debe ser un número positivo.")
         except ValueError as e:
             data['error'] = str(e)
-            return JsonResponse(data, status=400)
+            return JsonResponse(data)
 
         # Obtener el carrito del cliente
         cliente = request.user.cliente
@@ -62,7 +62,7 @@ class AgregarItemCarritoView(LoginRequiredMixin, View):
             data['message'] = lista_mensajes
         except Exception as e:
             data['error'] = str(e)
-            return JsonResponse(data, status=500)
+            return JsonResponse(data)
 
         return JsonResponse(data)
 

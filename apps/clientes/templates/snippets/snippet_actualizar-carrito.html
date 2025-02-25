@@ -1,44 +1,27 @@
 {% load static %}
 {% load humanize %}
-<div class="col-md-8" id="info-prod">
-    {% if carrito.items.count > 0 %}
-        {% for item in carrito.items.all %}
-            <div class="card mb-3" id="item-{{ item.id}}">
-                {% include 'includes/item_carrito.html' %}
-            </div>
-        {% endfor %}
-    {% else %}
-    <div class="card mb-3">
-        <div class="row no-gutters">
-            <div class="col-md-4">
-                <img src="{% static 'img/default.png' %}" class="product-image" alt="Imagen del producto">
-            </div>
-            <div class="col-md-8 d-flex align-items-center justify-content-center">
-                <h5 class="card-title">No tienes productos en el carrito</h5>
-            </div>
+<div class="row" id="info-prod">
+    <!-- Columna de información del producto -->
+    <div class="col-md-8">
+        {% if carrito.items.count > 0 %}
+            {% for item in carrito.items.all %}
+                <div class="card mb-3" id="item-{{ item.id}}">
+                    {% include 'includes/item_carrito.html' %}
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="card mb-3">
+            {% include 'includes/carrito_vacio.html' %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Columna de resumen de la compra -->
+    <div class="col-md-4">
+        <div class="card">
+            {% include 'includes/resumen_carrito.html' %}
         </div>
     </div>
-    {% endif %}
-</div>
-
-<div hx-swap-oob="true" class="card-body" id="resumen-compra">
-    <h5 class="card-title">Resumen de la Compra</h5>
-    {% if carrito.items.count > 0 %}
-        <p>Total de productos: <span id="totalProducts">{{ total_prod }}</span></p>
-        <p>Subtotal: $<span id="subtotal">{{ carrito.total|intcomma }}</span></p>
-        <p>Envío: $<span id="shipping">5.00</span></p>
-        <hr>
-        <p><strong>Total a pagar: $<span id="totalAmount">55.00</span></strong></p>
-        <div style="display:block">
-            <button class="btn btn-primary btn-block" style="width: 100%;">Proceder al Pago</button>
-        </div>
-    {% else %}
-        <p>Total de productos: <span id="totalProducts">0</span></p>
-        <p>Subtotal: $<span id="subtotal">0</span></p>
-        <p>Envío: $<span id="shipping">0</span></p>
-        <hr>
-        <p><strong>Total a pagar: $<span id="totalAmount">0</span></strong></p>
-    {% endif %}
 </div>
 
 <div hx-swap-oob="true" id="notify-carrito" class="position-relative">

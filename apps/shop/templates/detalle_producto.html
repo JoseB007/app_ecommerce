@@ -31,24 +31,44 @@
                 {% endfor %}
             </div>
 
+            {% if request.user.is_authenticated %}
             <!-- Selector de cantidad -->
-            <form method="post" id="form-carrito" action="{% url 'clientes:agregar-al-carrito' producto.id %}">
-                {% csrf_token %}
-                <div class="quantity-selector mb-4">
-                    <label for="quantity" class="form-label">Cantidad:</label>
-                    <input type="number" name="cantidad" class="form-control" value="1" style="max-width: 100px;">
-                </div>
+            <div class="d-flex">
 
-                <!-- Botones de acción -->
-                <div class="action-buttons mb-4">
-                    <button class="btn btn-primary me-2">
-                        <i class="fas fa-cart-plus"></i> Añadir al carrito
-                    </button>
-                    <button class="btn btn-outline-secondary">
-                        <i class="fas fa-heart"></i> Añadir a favoritos
-                    </button>
-                </div>
-            </form>
+                <!-- Formulario para agregar al carrito -->
+                <form method="post" id="form-carrito" action="{% url 'clientes:agregar-al-carrito' producto.id %}">
+                    {% csrf_token %}
+                    <div class="quantity-selector mb-4">
+                        <label for="quantity" class="form-label">Cantidad:</label>
+                        <input type="number" name="cantidad" class="form-control" value="1" style="max-width: 100px;">
+                    </div>
+                    <!-- Botones de acción -->
+                    <div class="action-buttons mb-4">
+                        <button id="add-item" class="btn btn-primary me-2">
+                            <i class="fas fa-cart-plus"></i> Añadir al carrito
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Formulario para agregar prod. a favoritos -->
+                <form method="post" id="form-favorito" action="{% url 'perfil:agregar-a-favoritos' %}" class="d-flex flex-column justify-content-end">
+                    {% csrf_token %}
+                    <input type="hidden" name="id_producto" value="{{ producto.id }}">
+                    
+                    <div class="action-buttons mb-4">
+                        {% if producto not in request.user.cliente.favoritos.all %}
+                        <button id="add-favorito" class="btn btn-outline-secondary">
+                            <i class="fas fa-heart"></i> Añadir a favoritos
+                        </button>
+                        {% else %}
+                        <button id="add-favorito" class="btn btn-outline-danger">
+                            <i class="fas fa-heart"></i> Eliminar de favoritos
+                        </button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            {% endif %}
 
             <!-- Información del producto -->
             <div class="product-info">

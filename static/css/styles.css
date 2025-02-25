@@ -155,7 +155,7 @@ form label {
 } */
 
 
-.product-image {
+.product-image-cart {
     max-height: 400px;
     width: 100%;
     object-fit: contain;

@@ -19,8 +19,8 @@
                     <p class="card-text text-muted">{{ perfil.email }}</p>
                     {% endif %}
 
-                    {% if request.user == perfil %}
                     <!-- Enlaces de edición -->
+                    {% if request.user == perfil %}
                     <div class="text-start">
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -47,67 +47,11 @@
 
         <!-- Columna derecha: Compras y favoritos -->
         <div class="col-md-8">
-            {% if request.user == perfil %}
             <!-- Compras realizadas -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">Compras realizadas</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <span>Producto 1</span>
-                                <span class="text-muted">$50.00</span>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <span>Producto 2</span>
-                                <span class="text-muted">$45.00</span>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="d-flex justify-content-between">
-                                <span>Producto 3</span>
-                                <span class="text-muted">$60.00</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            {% endif %}
+            {% include 'includes/compras_realizadas.html' %}
 
             <!-- Favoritos agregados -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Favoritos</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Producto favorito 1 -->
-                        <div class="col-md-6 mb-3">
-                            <div class="card">
-                                <img src="https://images.pexels.com/photos/19526811/pexels-photo-19526811/free-photo-of-pastel-de-melaza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Producto 1">
-                                <div class="card-body">
-                                    <h6 class="card-title">Producto 1</h6>
-                                    <p class="card-text text-muted">$50.00</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Producto favorito 2 -->
-                        <div class="col-md-6 mb-3">
-                            <div class="card">
-                                <img src="https://images.pexels.com/photos/19526811/pexels-photo-19526811/free-photo-of-pastel-de-melaza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Producto 2">
-                                <div class="card-body">
-                                    <h6 class="card-title">Producto 2</h6>
-                                    <p class="card-text text-muted">$45.00</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include 'includes/favoritos.html' %}
         </div>
     </div>
 </div>
