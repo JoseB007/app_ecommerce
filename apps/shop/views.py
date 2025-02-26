@@ -1,5 +1,8 @@
 from django.views.generic import ListView, DetailView, CreateView, DetailView, UpdateView, TemplateView
 from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponse
+from django.db.models import Count
 
 from apps.productos.models import Producto, Categoria
 
@@ -22,10 +25,12 @@ class ListaTiendaProductosView(ListView):
     paginate_by = 8
 
     def get_queryset(self):
+        # Si ya se definió un queryset en el método get, usarlo
+        if hasattr(self, 'queryset'):
+            queryset = self.queryset
+        
         queryset = super().get_queryset()
-        self.tag = self.kwargs.get("tag")
-        if self.tag:
-            queryset = Producto.objects.filter(categorias__slug=self.tag)
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -49,6 +54,34 @@ class ListaTiendaProductosView(ListView):
         lista_mayor = [x for x in lista_paginas if x > num_pag]
         
         return sorted(lista_menor[-3:] + lista_mayor[:2])
+    
+    def get(self, request, *args, **kwargs):
+        # Obtener el queryset actual
+        self.queryset = self.get_queryset()
+        
+        # Obtener el parámetro 'ref' de la URL para ordenar queryset
+        act = request.GET.get('ref')
+        if act:
+            self.queryset = self.ordenar_queryset(act, self.queryset)
+
+        # Obtener la categoría actual, y si existe filtrar productos por esa categoría
+        self.tag = self.kwargs.get("tag")
+        if self.tag:
+            self.queryset = self.queryset.filter(categorias__slug=self.tag)
+
+        # Llamar al método get de la clase padre para continuar con el flujo normal
+        return super().get(request, *args, **kwargs)
+
+    def ordenar_queryset(self, act, queryset):
+        # Si el parámetro es 'most-popular', ordenar por favoritos
+        if act == "mas-popular":
+            queryset = Producto.objects.annotate(total_fav=Count("favoritos")).order_by("-total_fav")
+        # Si el parámetro es 'most-purchased', ordenar por cant. de detalles de venta
+        elif act == "mas-comprado":
+            queryset = Producto.objects.annotate(total_compras=Count("detalles")).filter(total_compras__gt=0).order_by("-total_compras")
+        else:
+            queryset = Producto.objects.all()
+        return queryset
 
 
 class DetalleProductoView(DetailView):

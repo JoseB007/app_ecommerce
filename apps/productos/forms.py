@@ -17,7 +17,7 @@ class FormProducto(ModelForm):
                 }
             )
         }
-        exclude = ["slug", "disponible"]
+        exclude = ["slug", "disponible", "favoritos"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
