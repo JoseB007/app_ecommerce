@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.views.decorators.csrf import csrf_exempt
@@ -14,7 +14,7 @@ from apps.productos.models import Producto, ProductosFavoritos
 class DetallePerfilView(LoginRequiredMixin, generic.DetailView):
     model = Usuario
     template_name = 'perfil.html'
-    context_object_name = 'perfil'
+    context_object_name = 'usuario'
 
     def get_object(self, queryset = ...):
         perfil_usuario = self.request.user
@@ -22,7 +22,7 @@ class DetallePerfilView(LoginRequiredMixin, generic.DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['prod_favoritos'] = self.request.user.cliente.favoritos.all()[:3]
+        context['prod_favoritos'] = self.get_object().cliente.favoritos.all()[:3]
         return context
 
 
@@ -59,12 +59,25 @@ class AgregarProdFavoritoView(generic.View):
         
         return JsonResponse(data)
     
+    def add_prod_fav(self, cliente, producto):
+        datos = {}
+        # Obtener el producto favorito o crear uno
+        prod_favorito, prod_creado = ProductosFavoritos.objects.get_or_create(cliente=cliente, producto=producto)
+
+        # Si el prod ya existe, eliminar de favoritos
+        if not prod_creado:
+            prod_favorito.delete()
+            messages.info(self.request, self.msj_info)
+            datos['txt_button'] = "Añadir a favoritos"
+        else:
+            messages.success(self.request, self.msj_exito)
+            datos['txt_button'] = "Eliminar de favoritos"
+        
+        return datos
+    
+
+class EliminarProdFavorito(generic.View):
     def get(self, request, *args, **kwargs):
-
-        # Verificar si es una solicitud HTMX
-        if self.request.headers.get('HX-Request') != 'true':
-            return super().get(request, *args, **kwargs)
-
         if self.request.headers.get("HX-Request") == 'true':
             # Obtener el producto
             producto = get_object_or_404(Producto, id=self.kwargs.get('pk'))
@@ -75,33 +88,21 @@ class AgregarProdFavoritoView(generic.View):
             except AttributeError:
                 return JsonResponse({'error': 'El usuario no tiene un cliente asociado'})
             
-            self.add_prod_fav(cliente, producto)
+            try:
+                prod_favorito = ProductosFavoritos.objects.get(cliente=cliente, producto=producto)
+                prod_favorito.delete()
+            except Exception as e:
+                return JsonResponse({'error': str(e)}) 
 
             context = {
-                'prod_favoritos': cliente.favoritos.all()[:3]
+                'prod_favoritos': cliente.favoritos.all()[:3],
+                'usuario': request.user,
             }
             
             # Renderizar la plantilla
             return render(request, 'snippets/snippet_favorito.html', context)
-
-    def add_prod_fav(self, cliente, producto):
-        datos = {}
-        # Obtener el producto favorito o crear uno
-        prod_favorito, prod_creado = ProductosFavoritos.objects.get_or_create(cliente=cliente, producto=producto)
-
-        # Si el prod ya existe, eliminar de favoritos
-        if not prod_creado:
-            prod_favorito.delete()
-            if self.request.method == 'POST':
-                messages.info(self.request, self.msj_info)
-            datos['txt_button'] = "Añadir a favoritos"
-        else:
-            if self.request.method == 'POST':
-                messages.success(self.request, self.msj_exito)
-            datos['txt_button'] = "Eliminar de favoritos"
         
-        return datos
-    
+        return super().get(request, *args, **kwargs)
 
 
 

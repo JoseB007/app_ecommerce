@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib import messages
 from django.db.models import Sum, Count
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import DetailView, View
+from django.views.generic import DetailView, View, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages import get_messages
 
@@ -188,3 +188,19 @@ class CarritoView(LoginRequiredMixin, DetailView):
         return context
 
 
+class ListaClientesView(LoginRequiredMixin, ListView):
+    model = Cliente
+    template_name = "lista_clientes.html"
+    context_object_name = "clientes"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self._agregar_textos_contexto(context)
+        return context
+    
+    def _agregar_textos_contexto(self, context):
+        # Agrega los textos estáticos al contexto.
+        context.update({
+            'titulo_tabla': "Lista de clientes",
+            'accion_btn': "Agregar cliente",
+        })

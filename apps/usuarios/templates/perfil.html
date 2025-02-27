@@ -9,18 +9,18 @@
             <div class="card text-center">
                 <div class="card-body">
                     <!-- Imagen de perfil -->
-                    <img src="{{ perfil.get_avatar }}" alt="Imagen de perfil" class="img-fluid rounded-circle mb-3">
+                    <img src="{{ usuario.get_avatar }}" alt="Imagen de perfil" class="img-fluid rounded-circle mb-3">
                     <!-- Botón para cambiar la imagen -->
                     <button class="btn btn-outline-primary btn-sm mb-3">Cambiar imagen</button>
 
                     <!-- Información básica -->
-                    <h4 class="card-title">{{ perfil.get_nombre_completo }}</h4>
-                    {% if user.email %}
-                    <p class="card-text text-muted">{{ perfil.email }}</p>
+                    <h4 class="card-title">{{ usuario.get_nombre_completo }}</h4>
+                    {% if usuario.email %}
+                    <p class="card-text text-muted">{{ usuario.email }}</p>
                     {% endif %}
 
                     <!-- Enlaces de edición -->
-                    {% if request.user == perfil %}
+                    {% if request.user == usuario %}
                     <div class="text-start">
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-
+        {% if request.user == usuario %}
         <!-- Columna derecha: Compras y favoritos -->
         <div class="col-md-8">
             <!-- Compras realizadas -->
@@ -53,6 +53,7 @@
             <!-- Favoritos agregados -->
             {% include 'includes/favoritos.html' %}
         </div>
+        {% endif %}
     </div>
 </div>
 

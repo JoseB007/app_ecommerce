@@ -1,0 +1,39 @@
+{% extends 'includes/lista.html' %}
+
+{% block tabla-datos %}
+<thead>
+    <tr>
+        <th>No.</th>
+        <th>Nombre</th>
+        <th>Identificación</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Dirección</th>
+        <th>Acciones</th>
+    </tr>
+</thead>
+<tbody>
+    {% for cliente in clientes %}
+        {% with forloop.counter as index %}
+            <tr>
+                <td>{{ index }}</td>
+                <td>{{ cliente.nombre_completo|truncatewords:"4" }}</a></td>
+                <td>{{ cliente.identificacion }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>
+                    {% if not cliente.direccion %}
+                    No disponible
+                    {% else %}
+                    {{ cliente.direccion }}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="" class="btn btn-sm btn-primary me-2"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        {% endwith %}
+    {% endfor %}
+</tbody>
+{% endblock %}

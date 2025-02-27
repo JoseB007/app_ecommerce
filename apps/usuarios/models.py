@@ -16,9 +16,9 @@ class Usuario(AbstractUser):
         return self.username
     
     def get_avatar(self):
+        avatar = '/static/img/avatars/default.png'
         if self.avatar:
             avatar = self.avatar.url
-        avatar = '/static/img/avatars/default.png'
         return avatar
     
     def get_nombre_completo(self):

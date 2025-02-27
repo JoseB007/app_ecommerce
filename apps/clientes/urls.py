@@ -8,4 +8,6 @@ urlpatterns = [
     path('mi-carrito/', views.CarritoView.as_view(), name='mi-carrito'),
     path('mi-carrito/<pk>/actualizar/', views.ActualizarItemCarrito.as_view(), name='actualizar-item-carrito'),
     path('mi-carrito/item/<pk>/eliminar/', views.EliminarItemCarrito.as_view(), name='eliminar-item-carrito'),
+    # Clientes
+    path('', views.ListaClientesView.as_view(), name="lista-clientes"),
 ]

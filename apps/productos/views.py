@@ -127,7 +127,6 @@ class ListarProductosView(ListView):
         # Agrega los textos estáticos al contexto.
         context.update({
             'titulo_tabla': "Lista de productos",
-            'action': "mostrar",
             'accion_btn': "Agregar producto",
         })
     
