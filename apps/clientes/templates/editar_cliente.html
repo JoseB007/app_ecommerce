@@ -1,0 +1,5 @@
+{% extends 'includes/editar_registros.html' %}
+
+{% block get_imagen %}
+    <img src="{{ object.usuario.get_avatar }}" alt="Imagen del producto" class="product-image" style="max-width: 100%; max-height: 600px;">
+{% endblock %}

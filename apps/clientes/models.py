@@ -24,7 +24,7 @@ class Cliente(models.Model):
         return self.nombre_completo
     
     class Meta:
-        ordering = ['nombre_completo']
+        ordering = ['-f_creacion']
 
 
 class Carrito(models.Model):
@@ -46,7 +46,6 @@ class Carrito(models.Model):
     def calcular_total(self):
         self.total = sum([item.cantidad * item.producto.precio for item in self.items.all()])
         self.save()
-
     
 
 class ItemCarrito(models.Model):

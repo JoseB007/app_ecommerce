@@ -10,4 +10,7 @@ urlpatterns = [
     path('mi-carrito/item/<pk>/eliminar/', views.EliminarItemCarrito.as_view(), name='eliminar-item-carrito'),
     # Clientes
     path('', views.ListaClientesView.as_view(), name="lista-clientes"),
+    path('editar-cliente/<pk>/', views.EditarClienteView.as_view(), name="editar-cliente"),
+    path('mi-cuenta/', views.EditarClienteView.as_view(), name='mi-cuenta'),
+    path('agregar-cliente/', views.AgregarClienteView.as_view(), name='agregar-cliente'),
 ]

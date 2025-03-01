@@ -1,0 +1,52 @@
+{% extends 'layouts/c.html' %}
+{% load static %}
+{% block scripts_personalizados %}
+    <script src="{% static 'js/funciones.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Columna de la imagen del producto -->
+    <div class="col-md-6 d-flex flex-column justify-content-center">
+        <div class="d-flex align-items-center p-5">
+            {% block get_imagen %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Columna del formulario de edición -->
+    <div class="col-md-6">
+        <div class="form-container">
+            <h2>{{ nombre_form }}</h2>
+            <form method="post" action="." id="edit-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#edit-form").on("submit", function (e) {
+        e.preventDefault();
+
+        // Crear un objeto FormData a partir del formulario
+        const formData = new FormData(this);
+
+        // URL de redirección (si es necesaria)
+        const url_redireccion = "{{ url_redireccion }}";
+
+        // Llamar a la función para enviar los datos
+        solicitud_post_ajax(window.location.pathname, formData, url_redireccion);
+    });
+</script>
+
+{% endblock %}

@@ -4,12 +4,14 @@ from django.http import HttpResponse, JsonResponse, Http404
 from django.contrib import messages
 from django.db.models import Sum, Count
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import DetailView, View, ListView
+from django.views.generic import DetailView, View, ListView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages import get_messages
+from django.core.paginator import Paginator
 
 
 from .models import Cliente, Carrito, ItemCarrito
+from .forms import FormCliente
 
 from apps.productos.models import Producto
 
@@ -192,6 +194,7 @@ class ListaClientesView(LoginRequiredMixin, ListView):
     model = Cliente
     template_name = "lista_clientes.html"
     context_object_name = "clientes"
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -202,5 +205,75 @@ class ListaClientesView(LoginRequiredMixin, ListView):
         # Agrega los textos estáticos al contexto.
         context.update({
             'titulo_tabla': "Lista de clientes",
+            'url_btn': reverse_lazy('clientes:agregar-cliente'),
             'accion_btn': "Agregar cliente",
+            'lista_paginas': self.__generar_lista_paginas(self.get_queryset())
         })
+
+    def __generar_lista_paginas(self, queryset):
+        paginador = Paginator(queryset, self.paginate_by)
+        num_pag = int(self.request.GET.get("page", 1))
+
+        lista_paginas = list(paginador.page_range)
+        lista_menor = [x for x in lista_paginas if x <= num_pag]
+        lista_mayor = [x for x in lista_paginas if x > num_pag]
+        
+        return sorted(lista_menor[-3:] + lista_mayor[:2])
+
+
+class EditarClienteView(LoginRequiredMixin, UpdateView):
+    model = Cliente
+    template_name = "editar_cliente.html"
+    form_class = FormCliente
+    success_url = reverse_lazy('clientes:lista-clientes')
+    msj_exito = "Se ha editado el perfil del cliente exitosamente"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self._agregar_textos_contexto(context)
+        return context
+    
+    def _agregar_textos_contexto(self, context):
+        context.update({
+            'nombre_form': 'Editar Cliente',
+            'url_redireccion': self.success_url
+        })
+        return context
+    
+    def get_object(self, queryset = ...):
+        # Obtener el cliente del usuario en sesión
+        mi_cuenta = self.request.user.cliente
+
+        # Obtener el id del cliente solicitado 
+        id_cliente = self.kwargs.get('pk')
+
+        if not id_cliente:
+            return mi_cuenta
+        return Cliente.objects.get(pk=id_cliente)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            form.save()
+            messages.success(request, self.msj_exito)
+            return JsonResponse({})
+
+        return self._respuesta_error(form.errors)
+    
+    def _respuesta_error(self, mensaje):
+        # Retorna una respuesta JSON con un mensaje de error
+        return JsonResponse({'error': mensaje}) 
+
+
+class AgregarClienteView(LoginRequiredMixin, CreateView):
+    model = Cliente
+    form_class = FormCliente
+    template_name = "agregar_cliente.html"
+    success_url = reverse_lazy('clientes:lista-clientes')
+    msj_exito = "Se ha agregado un nuevo cliente"
+
+

@@ -120,7 +120,6 @@ class ListarProductosView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self._agregar_textos_contexto(context)
-        context['lista_paginas'] = self._generar_lista_paginas(self.get_queryset())
         return context
         
     def _agregar_textos_contexto(self, context):
@@ -128,6 +127,8 @@ class ListarProductosView(ListView):
         context.update({
             'titulo_tabla': "Lista de productos",
             'accion_btn': "Agregar producto",
+            'url_btn': reverse_lazy('productos:agregar-producto'),
+            'lista_paginas': self._generar_lista_paginas(self.get_queryset())
         })
     
     def _generar_lista_paginas(self, queryset):
