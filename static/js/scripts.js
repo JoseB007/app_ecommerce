@@ -20,7 +20,7 @@ $(function () {
     const mensajes = $(".messages li");
     $.each(mensajes, function () {
         if ($(this).hasClass("success")) {
-            toastr["success"]($(this).text(), "Éxito");
+            toastr["success"]($(this).text());
         } else if ($(this).hasClass("info")) {
             sweetAlert_mensajes("Info", $(this).text(), "info");
         } else {

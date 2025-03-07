@@ -1,35 +1,12 @@
 {% load static %}
 {% load humanize %}
-<div class="row" id="info-prod">
-    <!-- Columna de información del producto -->
-    <div class="col-md-8">
-        {% if carrito.items.count > 0 %}
-            {% for item in carrito.items.all %}
-                <div class="card mb-3" id="item-{{ item.id}}">
-                    {% include 'includes/item_carrito.html' %}
-                </div>
-            {% endfor %}
-        {% else %}
-        <div class="card mb-3">
-            {% include 'includes/carrito_vacio.html' %}
-        </div>
-        {% endif %}
-    </div>
+{% include 'includes/total_carrito.html' %}
 
-    <!-- Columna de resumen de la compra -->
-    <div class="col-md-4">
-        <div class="card">
-            {% include 'includes/resumen_carrito.html' %}
-        </div>
-    </div>
-</div>
-
-<div hx-swap-oob="true" id="notify-carrito" class="position-relative">
-    {% if request.user.cliente.carrito.productos.count > 0 %}
-    <span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
-        {{ request.user.cliente.carrito.productos.count }}
-        <span class="visually-hidden">unread messages</span>
-    </span>
+<a  hx-swap-oob="true" href="{% url 'clientes:mi-carrito' %}" class="nav-link position-relative" id="notify-carrito">
+    <i class="fas fa-shopping-cart fs-4"></i>
+    {% if request.user.is_authenticated and request.user.cliente.carrito.productos.count > 0 %}
+        <span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
+            {{ request.user.cliente.carrito.productos.count }}
+        </span>
     {% endif %}
-    <a href="{% url 'clientes:mi-carrito' %}" class="nav-link">Carrito</a>
-</div>
+</a>

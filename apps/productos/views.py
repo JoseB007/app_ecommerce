@@ -127,6 +127,7 @@ class ListarProductosView(ListView):
         context.update({
             'titulo_tabla': "Lista de productos",
             'accion_btn': "Agregar producto",
+            'placehoder': "Ingresar producto...",
             'url_btn': reverse_lazy('productos:agregar-producto'),
             'lista_paginas': self._generar_lista_paginas(self.get_queryset())
         })

@@ -207,6 +207,7 @@ class ListaClientesView(LoginRequiredMixin, ListView):
             'titulo_tabla': "Lista de clientes",
             'url_btn': reverse_lazy('clientes:agregar-cliente'),
             'accion_btn': "Agregar cliente",
+            'placehoder': 'Ingresar cliente...',
             'lista_paginas': self.__generar_lista_paginas(self.get_queryset())
         })
 

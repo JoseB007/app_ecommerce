@@ -11,25 +11,54 @@
                 <span class="company-name">Mi E-commerce</span>
             </div>
             <!-- Sección derecha: Enlaces de inicio de sesión, crear cuenta y carrito -->
-            <div class="col-4 d-flex justify-content-end align-items-center">
-                {% if not request.user.is_authenticated %}
-                <a href="{% url 'account_login' %}" class="nav-link">Iniciar sesión</a>
-                <a href="{% url 'account_signup' %}" class="nav-link">Crear cuenta</a>
-                {% else %}
-                {% if request.user.is_superuser %}
-                <a href="{% url 'administracion:home' %}" class="nav-link">Administración</a>
-                {% endif %}
-                <a href="{% url 'perfil:perfil' %}" class="nav-link">Perfil</a>
-                <div id="notify-carrito" class="position-relative">
-                    {% if request.user.cliente.carrito.productos.count > 0 %}
-                    <span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
-                        {{ request.user.cliente.carrito.productos.count }}
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                    {% endif %}
-                    <a href="{% url 'clientes:mi-carrito' %}" class="nav-link">Carrito</a>
-                </div>
-                {% endif %}
+            <div class="col-4">
+                <div class="d-flex justify-content-end align-items-end gap-3">
+    
+                    <!-- Menú desplegable de usuario -->
+                    <div class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% if not request.user.is_authenticated %}
+                                <i class="fas fa-user-circle fs-4"></i>
+                            {% else %}
+                                <img src="{{ request.user.get_avatar }}" alt="Foto de perfil" class="rounded-circle" width="40" height="40">
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="userMenu" style="width: 250px;">
+                            <!-- Header -->
+                            <li class="px-2">
+                                <h6 class="mb-0">Bienvenido{% if request.user.is_authenticated %}, {{ request.user.username }}{% endif %}</h6>
+                                <hr class="my-2">
+                            </li>
+                            
+                            <!-- Body -->
+                            <li><a class="dropdown-item" href="{% url 'perfil:perfil' %}"><i class="fas fa-user me-2"></i> Mi Perfil</a></li>
+                            {% if request.user.is_superuser %}
+                                <li><a class="dropdown-item" href="{% url 'administracion:home' %}"><i class="fas fa-cogs me-2"></i> Administración</a></li>
+                            {% endif %}
+                            
+                            <!-- Footer -->
+                            <hr class="my-2">
+                            <li>
+                                {% if request.user.is_authenticated %}
+                                    <a class="dropdown-item text-danger" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt me-2"></i> Cerrar sesión</a>
+                                {% else %}
+                                    <a class="dropdown-item" href="{% url 'account_login' %}"><i class="fas fa-sign-in-alt me-2"></i> Iniciar sesión</a>
+                                    <a class="dropdown-item" href="{% url 'account_signup' %}"><i class="fas fa-user-plus me-2"></i> Registrarse</a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                                
+                    <!-- Icono de carrito -->
+                    <a href="{% url 'clientes:mi-carrito' %}" class="nav-link position-relative" id="notify-carrito">
+                        <i class="fas fa-shopping-cart fs-4"></i>
+                        {% if request.user.is_authenticated and request.user.cliente.carrito.productos.count > 0 %}
+                            <span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">
+                                {{ request.user.cliente.carrito.productos.count }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </div>   
             </div>
         </div>
     </div>

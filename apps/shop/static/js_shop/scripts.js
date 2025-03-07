@@ -8,13 +8,14 @@ $(function () {
         solicitud_post_ajax(url_, formData, function (response) {
             if (!response.error) {
                 const carritoItemsBadge = $("#carrito-items");
-
+                
                 if (response.carrito_items > 0) {
                     if (carritoItemsBadge.length === 0) {
+                        carritoItemsBadge.text(response.carrito_items);
                         $("#notify-carrito").append(
                             '<span id="carrito-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">' +
                                 response.carrito_items +
-                                '<span class="visually-hidden">unread messages</span></span>'
+                            '</span>'
                         );
                     } else {
                         // Si el badge ya existe, actualiza su texto
@@ -44,15 +45,13 @@ $(function () {
 
                 // Define el nuevo botón
                 let new_btn =
-                    '<button id="add-favorito"><i class="fas fa-heart"></i> ' +
-                    response.txt_button +
-                    "</button>";
+                    '<button id="add-favorito"><i class="fas fa-heart"></i></button>';
                 
                 // Reemplaza el botón actual con el nuevo botón
                 btn.replaceWith(new_btn);
 
                 if (response.txt_button == "Eliminar de favoritos") {
-                    $("#add-favorito").addClass('btn btn-outline-danger')
+                    $("#add-favorito").addClass('btn btn-danger')
                 }
                 else {
                     $("#add-favorito").addClass('btn btn-outline-secondary')

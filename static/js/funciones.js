@@ -66,10 +66,10 @@ function mensaje_error(obj) {
 function toastr_funcion(obj) {
     $.each(obj, function () {
         if (this[0] == "success") {
-            toastr["success"](this[1], "Éxito");
+            toastr["success"](this[1]);
         }
         if (this[0] == "info") {
-            toastr["info"](this[1], "Info");
+            toastr["info"](this[1]);
         }
     });
 }

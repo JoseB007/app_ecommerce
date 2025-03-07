@@ -91,5 +91,12 @@ class DetalleProductoView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = Categoria.objects.all()
+        self._agregar_textos_contexto(context)
+        return context
+    
+    def _agregar_textos_contexto(self, context):
+        context.update({
+            'categorias': Categoria.objects.all(),
+            'mensaje_whatsapp': f"¡Hola! Estoy interesado en el producto \"{self.get_object().nombre}\" que cuesta ${self.get_object().precio}. Aquí está el enlace: {self.request.build_absolute_uri()}"
+        })
         return context

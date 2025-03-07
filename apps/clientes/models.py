@@ -10,7 +10,7 @@ import uuid
 # Create your models here.
 class Cliente(models.Model):
     id = models.CharField(primary_key=True, default=uuid.uuid4, editable=False, max_length=100)
-    usuario = models.OneToOneField(Usuario, on_delete=models.SET_NULL, related_name='cliente', blank=True, null=True)
+    usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='cliente', blank=True, null=True)
     nombre_completo = models.CharField(max_length=100, blank=True, null=True)
     identificacion = models.CharField(max_length=10, verbose_name='Doc. Identificación', blank=True, null=True)
     telefono = models.CharField(max_length=10, verbose_name='Teléfono', blank=True, null=True)

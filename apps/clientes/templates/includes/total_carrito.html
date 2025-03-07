@@ -1,0 +1,25 @@
+{% load static %}
+{% load humanize %}
+<div class="row" id="info-prod">
+    <!-- Columna de información del producto -->
+    <div class="col-md-8">
+        {% if carrito.items.count > 0 %}
+            {% for item in carrito.items.all %}
+                <div class="card mb-3" id="item-{{ item.id}}">
+                    {% include 'includes/item_carrito.html' %}
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="card mb-3">
+            {% include 'includes/carrito_vacio.html' %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Columna de resumen de la compra -->
+    <div class="col-md-4">
+        <div class="card">
+            {% include 'includes/resumen_carrito.html' %}
+        </div>
+    </div>
+</div>

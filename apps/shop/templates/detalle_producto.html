@@ -32,9 +32,7 @@
             </div>
 
             {% if request.user.is_authenticated %}
-            <!-- Selector de cantidad -->
-            <div class="d-flex">
-
+            <div class="d-flex gap-2">
                 <!-- Formulario para agregar al carrito -->
                 <form method="post" id="form-carrito" action="{% url 'clientes:agregar-al-carrito' producto.id %}">
                     {% csrf_token %}
@@ -44,12 +42,18 @@
                     </div>
                     <!-- Botones de acción -->
                     <div class="action-buttons mb-4">
-                        <button id="add-item" class="btn btn-primary me-2">
+                        <button id="add-item" class="btn btn-primary ">
                             <i class="fas fa-cart-plus"></i> Añadir al carrito
                         </button>
                     </div>
                 </form>
 
+                <div class="action-buttons mb-4 d-flex align-items-end">
+                    <a href="https://wa.me/1234567890?text={{ mensaje_whatsapp|urlencode }}" class="btn btn-success">
+                        <i class="fab fa-whatsapp"></i> Consultar por WhatsApp
+                    </a>
+                </div>
+                
                 <!-- Formulario para agregar prod. a favoritos -->
                 <form method="post" id="form-favorito" action="{% url 'perfil:agregar-a-favoritos' %}" class="d-flex flex-column justify-content-end">
                     {% csrf_token %}
@@ -58,11 +62,11 @@
                     <div class="action-buttons mb-4">
                         {% if producto not in request.user.cliente.favoritos.all %}
                         <button id="add-favorito" class="btn btn-outline-secondary">
-                            <i class="fas fa-heart"></i> Añadir a favoritos
+                            <i class="fas fa-heart"></i>
                         </button>
                         {% else %}
-                        <button id="add-favorito" class="btn btn-outline-danger">
-                            <i class="fas fa-heart"></i> Eliminar de favoritos
+                        <button id="add-favorito" class="btn btn-danger">
+                            <i class="fas fa-heart"></i>
                         </button>
                         {% endif %}
                     </div>

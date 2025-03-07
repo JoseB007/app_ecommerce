@@ -45,11 +45,7 @@
             </div>
         </div>
         {% if request.user == usuario %}
-        <!-- Columna derecha: Compras y favoritos -->
         <div class="col-md-8">
-            <!-- Compras realizadas -->
-            {% include 'includes/compras_realizadas.html' %}
-
             <!-- Favoritos agregados -->
             {% include 'includes/favoritos.html' %}
         </div>
