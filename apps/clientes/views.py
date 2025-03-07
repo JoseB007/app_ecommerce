@@ -14,10 +14,25 @@ from .models import Cliente, Carrito, ItemCarrito
 from .forms import FormCliente
 
 from apps.productos.models import Producto
+from core.mixins import LoginRequiredJSONMixin
 
 # Create your views here.
-class AgregarItemCarritoView(LoginRequiredMixin, View):
+class AgregarItemCarritoView(LoginRequiredJSONMixin, View):
     msj_exito = 'Producto agregado al carrito.'
+    next_url = None
+
+    def _get_url(self, producto):
+        return reverse("shop:detalle-producto", kwargs={'slug': producto.slug})
+
+    def dispatch(self, request, *args, **kwargs):
+        id_producto = self.kwargs['pk']
+        if not id_producto:
+            return JsonResponse({'error': 'ID de producto no proporcionado'}, status=400)
+        
+        producto = get_object_or_404(Producto, id=id_producto)
+        self.next_url = self._get_url(producto)
+
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -39,6 +54,12 @@ class AgregarItemCarritoView(LoginRequiredMixin, View):
         carrito, carrito_creado = Carrito.objects.get_or_create(cliente=cliente)
 
         # Agregar o actualizar el ítem en el carrito
+        data = self._agregar_item_carrito(producto, cantidad, carrito)
+
+        return JsonResponse(data)
+    
+    def _agregar_item_carrito(self, producto, cantidad, carrito):
+        data = {}
         try:
             item, item_creado = ItemCarrito.objects.get_or_create(
                 carrito=carrito,
@@ -54,9 +75,9 @@ class AgregarItemCarritoView(LoginRequiredMixin, View):
             carrito.calcular_total()
 
             # Mensaje de éxito
-            messages.success(request, self.msj_exito)
-            storage = get_messages(request)
-            lista_mensajes = [(message.tags, message.message) for message in storage]
+            messages.success(self.request, self.msj_exito)
+            storage = get_messages(self.request)
+            lista_mensajes = [(message.tags, message.message) for message in storage]            
             
             # Datos para la respuesta JSON
             data['item'] = item.producto.json_producto()
@@ -65,8 +86,8 @@ class AgregarItemCarritoView(LoginRequiredMixin, View):
         except Exception as e:
             data['error'] = str(e)
             return JsonResponse(data)
-
-        return JsonResponse(data)
+        
+        return data
 
 
 class ActualizarItemCarrito(LoginRequiredMixin, View):
@@ -241,16 +262,20 @@ class EditarClienteView(LoginRequiredMixin, UpdateView):
         })
         return context
     
-    def get_object(self, queryset = ...):
-        # Obtener el cliente del usuario en sesión
-        mi_cuenta = self.request.user.cliente
-
-        # Obtener el id del cliente solicitado 
+    def get_object(self, queryset=None):
+        # Obtiene el cliente basado en la URL o el usuario autenticado
         id_cliente = self.kwargs.get('pk')
 
-        if not id_cliente:
-            return mi_cuenta
-        return Cliente.objects.get(pk=id_cliente)
+        if id_cliente:
+            return get_object_or_404(Cliente, pk=id_cliente)
+
+        # Si no hay `id_cliente`, intenta obtener el cliente del usuario en sesión
+        try:
+            return self.request.user.cliente
+        except AttributeError:  # Se lanza si el usuario no tiene relación con Cliente
+            return JsonResponse({'error': 'El usuario no tiene un cliente asociado'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'Error inesperado: {str(e)}'}, status=500)
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()

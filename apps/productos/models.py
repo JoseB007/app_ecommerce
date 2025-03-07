@@ -79,6 +79,7 @@ class ProductosFavoritos(models.Model):
     f_creacion = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        ordering = ['-f_creacion']
         constraints = [
             models.UniqueConstraint(fields=['cliente', 'producto'], name='unique_cliente_producto_favorito')
         ]

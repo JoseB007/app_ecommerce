@@ -17,7 +17,13 @@ function solicitud_post_ajax(url, parametros, callback) {
             }
         },
         error: function (xhr, status) {
-            alert("Disculpe, existió un problema.", status + ": " + xhr);
+            if (xhr.status === 401) {
+                // Usuario no autenticado, redirigir manualmente a la página de login
+                let response = JSON.parse(xhr.responseText);
+                window.location.href = response.redirect_url;
+            } else {
+                alert("Disculpe, existió un problema.", status + ": " + xhr);
+            }
         },
     });
 }
